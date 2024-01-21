@@ -52,7 +52,7 @@ function afficherUneTache(tache) {
 
     const label = document.createElement("label")
     label.innerText = tache.texte
-    label.setAttribute("for", tache.id)
+    label.setAttribute("contenteditable", "true")
 
     const button = document.createElement("button")
     button.dataset.id = tache.id
