@@ -75,6 +75,9 @@ conteneurTache.addEventListener("click", (e) => {
         changerEtatTache(idTache)
     }else if(baliseCible === "BUTTON") {
         console.log("X")
+        //récupérer l'id de la tache à supprimer
+        const idTache = e.target.getAttribute("data-id")
+        supprimerTache(idTache)
     }
 })
 
@@ -93,6 +96,18 @@ function changerEtatTache(idTache) {
     sauvegarderDonnees()
 }
 
+function supprimerTache(idTache) {
+    //supprimer la tache concernée dans le tableau
+    const tachesMAJ = taches.filter(tache => tache.id !== Number(idTache))
+    //MAJ le tableau des taches
+    // console.log(tachesMAJ)
+    taches = tachesMAJ
+    sauvegarderDonnees()
+
+    //retirer la tache du DOM
+    const tacheASupp = document.getElementById(idTache)
+    tacheASupp.parentElement.remove(tacheASupp)
+}
 
 function sauvegarderDonnees() {
     localStorage.setItem("taches", JSON.stringify(taches))
