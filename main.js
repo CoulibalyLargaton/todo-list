@@ -6,7 +6,17 @@ const conteneurTache = document.getElementById("conteneur-taches")
 //identifiant des taches
 let id = 0
 
+/**
+ * @typedef tache
+ * @property {number} id identifiant de la tache
+ * @property {string} texte description de la tache
+ * @property {boolean} termine tache accompli ou non
+ */
+
 //toutes les taches
+/**
+ * @type {Array<tache>}
+ */
 let taches = []
 
 form.addEventListener("submit", (e) => {
@@ -18,6 +28,9 @@ form.addEventListener("submit", (e) => {
     } else {
         //créer la structure d'une tache
         id++
+        /**
+         * @type {tache}
+         */
         const nouvelleTache = {
             id: id,
             texte: inputTache.value,
@@ -37,6 +50,11 @@ form.addEventListener("submit", (e) => {
     }
 })
 
+/**
+ * crée la structure nécessaire pour afficher correctement une tache
+ *
+ * @param {tache} tache
+ */
 function afficherUneTache(tache) {
     const li = document.createElement("li")
 
@@ -82,6 +100,10 @@ conteneurTache.addEventListener("click", (e) => {
     }
 })
 
+/**
+ * modife l'etat d'une tache au niveau du tableau des taches
+ * @param {number} idTache identifiant de la tache
+ */
 function changerEtatTache(idTache) {
     //modifier la tache concernée dans le tableau
     const tachesMAJ = taches.map((tache) => {
@@ -97,6 +119,12 @@ function changerEtatTache(idTache) {
     sauvegarderDonnees()
 }
 
+/**
+ * modifie le texte d'une tache déjà enregistré
+ *
+ * @param {Element} label description de la tache
+ * @param {number} idTache identifiant de la tache
+ */
 function editerUneTache(label, idTache) {
     // console.log(label, idTache)
     label.addEventListener("input", () => {
@@ -118,6 +146,10 @@ function editerUneTache(label, idTache) {
     })
 }
 
+/**
+ * supprime une tache en fonction de son id
+ * @param {number} idTache identifiant de la tache
+ */
 function supprimerTache(idTache) {
     //supprimer la tache concernée dans le tableau
     const tachesMAJ = taches.filter((tache) => tache.id !== Number(idTache))
@@ -131,11 +163,17 @@ function supprimerTache(idTache) {
     tacheASupp.parentElement.remove(tacheASupp)
 }
 
+/**
+ * sauvegarde en mémoire toutes les taches éditées ainsi que l'id de la dernière tache
+ */
 function sauvegarderDonnees() {
     localStorage.setItem("taches", JSON.stringify(taches))
     localStorage.setItem("id", JSON.stringify(id))
 }
 
+/**
+ * récupére le tableau des taches ainsi que l'id de la dernière tache en mémoire
+ */
 function chargerDonnees() {
     const donneesExistes = localStorage.getItem("taches")
     if (donneesExistes) {
@@ -145,6 +183,10 @@ function chargerDonnees() {
     }
 }
 
+/**
+ * affiche toutes les taches
+ * @param {Array<tache>} taches
+ */
 function afficherTaches(taches) {
     taches.forEach((tache) => {
         afficherUneTache(tache)
