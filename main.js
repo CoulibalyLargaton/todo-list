@@ -7,24 +7,21 @@ const conteneurTache = document.getElementById("conteneur-taches")
 let id = 0
 
 //toutes les taches
-let taches = [
-
-]
+let taches = []
 
 form.addEventListener("submit", (e) => {
     //empêcher la soumission du form
     e.preventDefault()
 
-    if(inputTache.value == "") {
+    if (inputTache.value == "") {
         alert("Veuillez renseigner ce champ")
-    }else {
-
+    } else {
         //créer la structure d'une tache
         id++
         const nouvelleTache = {
             id: id,
-            texte : inputTache.value, 
-            termine : false
+            texte: inputTache.value,
+            termine: false,
         }
 
         //ajout de la tache au tableau de toutes les taches
@@ -35,7 +32,6 @@ form.addEventListener("submit", (e) => {
 
         //afficher la nouvelle tache
         afficherUneTache(nouvelleTache)
-        
 
         inputTache.value = ""
     }
@@ -67,38 +63,64 @@ function afficherUneTache(tache) {
 
 conteneurTache.addEventListener("click", (e) => {
     const baliseCible = e.target.tagName
-    if(baliseCible === "INPUT") {
+    if (baliseCible === "INPUT") {
         // console.log("input")
 
         //récupérer l'id de la tache à modifier
         const idTache = e.target.getAttribute("id")
         changerEtatTache(idTache)
-    }else if(baliseCible === "BUTTON") {
+    } else if (baliseCible === "BUTTON") {
         console.log("X")
         //récupérer l'id de la tache à supprimer
         const idTache = e.target.getAttribute("data-id")
         supprimerTache(idTache)
+    } else if (baliseCible === "LABEL") {
+        //récupérer l'id de la tache à éditer
+        const idTache = e.target.previousSibling.id
+        // console.log(e.target)
+        editerUneTache(e.target, idTache)
     }
 })
 
 function changerEtatTache(idTache) {
     //modifier la tache concernée dans le tableau
-    const tachesMAJ = taches.map(tache => {
-        if(tache.id === Number(idTache)) {
-            tache.termine =!tache.termine
+    const tachesMAJ = taches.map((tache) => {
+        if (tache.id === Number(idTache)) {
+            tache.termine = !tache.termine
         }
         return tache
     })
-    
+
     // console.log(tachesMAJ)
     //MAJ le tableau des taches
     taches = tachesMAJ
     sauvegarderDonnees()
 }
 
+function editerUneTache(label, idTache) {
+    // console.log(label, idTache)
+    label.addEventListener("input", () => {
+        // console.log("changement")
+        // récupérer le contenu du label
+        const contenuLabel = label.innerText
+
+        //modifier le texte de la tache concernée dans le tableau
+        const tachesMAJ = taches.map((tache) => {
+            if (tache.id === Number(idTache)) {
+                tache.texte = contenuLabel
+            }
+            return tache
+        })
+
+        //MAJ le tableau des taches
+        taches = tachesMAJ
+        sauvegarderDonnees()
+    })
+}
+
 function supprimerTache(idTache) {
     //supprimer la tache concernée dans le tableau
-    const tachesMAJ = taches.filter(tache => tache.id !== Number(idTache))
+    const tachesMAJ = taches.filter((tache) => tache.id !== Number(idTache))
     //MAJ le tableau des taches
     // console.log(tachesMAJ)
     taches = tachesMAJ
@@ -116,7 +138,7 @@ function sauvegarderDonnees() {
 
 function chargerDonnees() {
     const donneesExistes = localStorage.getItem("taches")
-    if(donneesExistes) {
+    if (donneesExistes) {
         taches = JSON.parse(donneesExistes)
         id = JSON.parse(localStorage.getItem("id"))
         afficherTaches(taches)
