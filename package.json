@@ -1,0 +1,22 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "Une application classique permettant aux utilisateurs de suivre les tâches qu'ils doivent accomplir",
+  "main": "main.js",
+  "scripts": {
+    "lint": "eslint *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoulibalyLargaton/todo-list.git"
+  },
+  "author": "Coulibaly Largaton Guy Emmanuel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoulibalyLargaton/todo-list/issues"
+  },
+  "homepage": "https://github.com/CoulibalyLargaton/todo-list#readme",
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}
